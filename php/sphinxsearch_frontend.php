@@ -110,16 +110,19 @@ class SphinxSearch_FrontEnd
         if (!isset($_GET['search_comments'])
             && !isset($_GET['search_posts'])
             && !isset($_GET['search_pages'])
+			&& !isset($_GET['search_forums'])
             && !isset($_GET['search_tags'])
         ) {
 			$this->params['search_comments'] = $this->config->admin_options['search_comments']=='false'?'':'true';
 			$this->params['search_posts']    = $this->config->admin_options['search_posts']=='false'?'':'true';
 			$this->params['search_pages']    = $this->config->admin_options['search_pages']=='false'?'':'true';
+			$this->params['search_forums']    = $this->config->admin_options['search_forums']=='false'?'':'true';
             $this->params['search_tags']     = $this->config->admin_options['search_tags']=='false'?'':'true';
 		} else {
 			$this->params['search_comments'] = $wpdb->escape($_GET['search_comments']);
 			$this->params['search_posts']    = $wpdb->escape($_GET['search_posts']);
 			$this->params['search_pages']    = $wpdb->escape($_GET['search_pages']);
+			$this->params['search_forums']    = $wpdb->escape($_GET['search_forums']);
             $this->params['search_tags']     = $wpdb->escape($_GET['search_tags']);
 		}
 
@@ -165,6 +168,10 @@ class SphinxSearch_FrontEnd
 
 		if ( empty($this->params['search_posts']) ) {
 			$sphinx->SetFilter('isPost', array(0));
+		}
+
+		if ( empty($this->params['search_forums']) ) {
+			$sphinx->SetFilter('isForum', array(0));
 		}
         
         if ( empty($this->params['search_tags']) ) {
@@ -270,6 +277,9 @@ class SphinxSearch_FrontEnd
 					case '2':
 						$this->comments_count = $m['attrs']['@count'];
 						break;
+					case '3':
+						$this->forums_count = $m['attrs']['@count'];
+						break;	
 				}
 			}
 		}
@@ -1122,6 +1132,8 @@ class SphinxSearch_FrontEnd
 				return $this->pages_count;
 			case 'comments':
 				return $this->comments_count;
+			case 'forums':
+				return $this->forums_count;
 			default:
 				return 0;
 		}
