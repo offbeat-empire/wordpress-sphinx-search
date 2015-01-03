@@ -167,7 +167,7 @@ class SphinxSearch_Backend {
 		 * search_pages    - search in pages
          * search_tags     - search in tags
 		 */
-		foreach(array('search_comments', 'search_posts', 'search_pages', 'search_tags') as $option){
+		foreach(array('search_comments', 'search_posts', 'search_pages', 'search_tags', 'search_forums', 'search_replies') as $option){
 			if (!empty($_POST[$option])) {
                 $devOptions[$option] = 'true';
 			} else {
