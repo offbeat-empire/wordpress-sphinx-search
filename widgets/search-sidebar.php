@@ -114,4 +114,4 @@ function obe_sphinx_widget(){
       register_widget('OBESearchSidebarWidget');
 }
 
-add_action('widgets_init', 'obe_sphinx_wiget');
+add_action('widgets_init', 'obe_sphinx_widget');
